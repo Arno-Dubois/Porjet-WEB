@@ -8,10 +8,15 @@ function displayDetailedView(json) {
     console.log(json);
 
     const totalRuntime = json.runtime;
+    let runtime;
+    if(totalRuntime){
     const hours = Math.floor(totalRuntime / 60);
     const minutes = totalRuntime % 60;
-    const runtime = `${hours}h ${minutes}m`;
-
+    runtime = `${hours}h ${minutes}m`;
+  }
+    else {
+      runtime = json.number_of_seasons +" saisons - "+ json.number_of_episodes +" épisodes";
+    }
     container.innerHTML = `
       <div class="banner" style="background-image: url('https://www.themoviedb.org/t/p/original${
           json.backdrop_path
@@ -37,7 +42,7 @@ function displayDetailedView(json) {
             <div class="synopsis">
               <h2>Synopsis</h2>
               <p>
-                ${json.overview}
+                ${json.overview === "" ? "Pas de synopsis disponible" : json.overview}
               </p>
             </div>
           </div>
@@ -58,7 +63,7 @@ function displayCast(json) {
         const cast = json.cast[loopThroughCast];
         castContainer.innerHTML += `
         <div class="actor">
-            <img src="https://www.themoviedb.org/t/p/w500${cast.profile_path}" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
+            <img src="${(cast.profile_path != null)?("https://www.themoviedb.org/t/p/w500"+cast.profile_path) : ("img/user-round-x.svg")}" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
             <h4>${cast.name}</h4>
             <span>${cast.character}</span>
           </div>

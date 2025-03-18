@@ -18,7 +18,10 @@ function display(json, container) {
             film.first_air_date ? film.first_air_date : film.release_date
         ).toLocaleDateString("fr-FR", options)}</p>
         `;
-        gridTendance.children[loopThroughFilm].id = film.id;
+        gridTendance.children[loopThroughFilm].addEventListener("click", () => {
+            window.location.href = `/focus.html?type=${film.name ? "tv" : "movie"}&id=${film.id}`;
+        });
+
     }
 }
 

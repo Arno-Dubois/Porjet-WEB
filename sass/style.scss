@@ -395,6 +395,7 @@
     .banner {
         background-repeat: no-repeat;
         background-image: url("./../img/bg.png");
+        background-position: center;
 
         width: 100%;
         display: -webkit-box;
@@ -552,6 +553,21 @@ footer {
     }
     .focus-container .banner {
         padding-top: 60px;
+
+        .content {
+            grid-template-columns: 1fr;
+
+            .right{
+                width: 100%;
+            }
+        }
+
+    }
+    .content > img:nth-child(1) {
+        display:none;
+    }
+    .actor img {
+        height: auto;
     }
 }
 
