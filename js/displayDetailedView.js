@@ -60,12 +60,12 @@ function displayCast(json) {
     console.log(json);
     const castContainer = document.querySelector(".actors");
     for (let loopThroughCast = 0; loopThroughCast < 4; loopThroughCast++) {
-        const cast = json.cast[loopThroughCast];
+        const cast = json.cast[loopThroughCast]?json.cast[loopThroughCast]:json.crew[loopThroughCast];
         castContainer.innerHTML += `
         <div class="actor">
             <img src="${(cast.profile_path != null)?("https://www.themoviedb.org/t/p/w500"+cast.profile_path) : ("img/user-round-x.svg")}" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
             <h4>${cast.name}</h4>
-            <span>${cast.character}</span>
+            <span>${cast.character?cast.character:cast.job?cast.job:cast.known_for_department}</span>
           </div>
         `;
     }
