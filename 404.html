@@ -17,9 +17,9 @@
         <nav class="desktop-nav">
             <a href="index.html"><i class="fas fa-film"></i></a>
             <ul>
-                <li><a href="">Films</a></li>
-                <li><a href="">Séries</a></li>
-                <li><a href="">Populaires</a></li>
+                <li><a href="/#title-tendances">Films</a></li>
+                <li><a href="/#title-category">Séries</a></li>
+                <li><a href="/#title-tendances">Populaires</a></li>
             </ul>
         </nav>
 
@@ -44,18 +44,48 @@
 
         <!-- 404 Content -->
         <div class="wrapper">
-            <div class="container" style="text-align: center; padding: 80px 20px;">
-                <div class="title-filter" style="justify-content: center; margin-bottom: 40px;">
+            <div
+                class="container"
+                style="text-align: center; padding: 80px 20px"
+            >
+                <div
+                    class="title-filter"
+                    style="justify-content: center; margin-bottom: 40px"
+                >
                     <h2>404</h2>
                 </div>
-                <div style="max-width: 600px; margin: 0 auto;">
-                    <div class="movie" style="margin: 0 auto; width: 220px; margin-bottom: 40px;">
+                <div style="max-width: 600px; margin: 0 auto">
+                    <div
+                        class="movie"
+                        style="
+                            margin: 0 auto;
+                            width: 220px;
+                            margin-bottom: 40px;
+                        "
+                    >
                         <img src="img/popcorn.svg" alt="Page non trouvée" />
                         <div class="score"><p>404</p></div>
-                        <h5 style="font-size: 24px; margin-top: 15px;">Page non trouvée</h5>
+                        <h5 style="font-size: 24px; margin-top: 15px">
+                            Page non trouvée
+                        </h5>
                     </div>
-                    <p style="font-size: 18px; margin-bottom: 30px;">La page que vous recherchez semble avoir disparu comme un film culte des étagères de location.</p>
-                    <button onclick="window.location.href='index.html'" style="width: 180px; height: 40px; cursor: pointer; font-size: 18px; color: white; background-color: #032541; border: solid 2px #032541; margin-top: 20px;">
+                    <p style="font-size: 18px; margin-bottom: 30px">
+                        La page que vous recherchez semble avoir disparu comme
+                        un film culte des étagères de location.
+                    </p>
+                    <button
+                        onclick="window.location.href='index.html'"
+                        style="
+                            width: 180px;
+                            height: 40px;
+                            cursor: pointer;
+                            font-size: 18px;
+                            color: white;
+                            background-color: #032541;
+                            border: solid 2px #032541;
+                            margin-top: 20px;
+                        "
+                    >
                         Retour à l'accueil
                     </button>
                 </div>
@@ -69,9 +99,13 @@
 
         <script>
             // Mobile navigation toggle
-            document.getElementById('barr').addEventListener('click', function() {
-                document.getElementById('mobileNav').classList.toggle('open');
-            });
+            document
+                .getElementById("barr")
+                .addEventListener("click", function () {
+                    document
+                        .getElementById("mobileNav")
+                        .classList.toggle("open");
+                });
         </script>
     </body>
 </html>
