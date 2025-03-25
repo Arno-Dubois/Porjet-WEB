@@ -13,15 +13,16 @@ function display(json, container) {
             film.poster_path
         }" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
         <div class="score"><p>${Math.round(film.vote_average * 10)}%</p></div>
-        <h5>${film.name ? film.name : film.title}</h5>
+        <h5>${film.name || film.title}</h5>
         <p>${new Date(
-            film.first_air_date ? film.first_air_date : film.release_date
+            film.first_air_date || film.release_date
         ).toLocaleDateString("fr-FR", options)}</p>
         `;
         gridTendance.children[loopThroughFilm].addEventListener("click", () => {
-            window.location.href = `/focus.html?type=${film.name ? "tv" : "movie"}&id=${film.id}`;
+            window.location.href = `/focus.html?type=${
+                film.name ? "tv" : "movie"
+            }&id=${film.id}`;
         });
-
     }
 }
 
