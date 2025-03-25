@@ -1,5 +1,5 @@
 function display(json, container) {
-    console.log(json);
+    // console.log(json);
     const options = {
         year: "numeric",
         month: "long",

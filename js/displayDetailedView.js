@@ -5,7 +5,7 @@ function displayDetailedView(json) {
         month: "long",
         day: "numeric",
     };
-    console.log(json);
+    // console.log(json);
 
     const totalRuntime = json.runtime;
     let runtime;
@@ -13,13 +13,16 @@ function displayDetailedView(json) {
         const hours = Math.floor(totalRuntime / 60);
         const minutes = totalRuntime % 60;
         runtime = `${hours}h ${minutes}m`;
-    } else {
+    } else if (json.number_of_seasons && json.number_of_episodes) {
         runtime =
             json.number_of_seasons +
             " saisons - " +
             json.number_of_episodes +
             " épisodes";
+    } else {
+        runtime = "Durée inconnue";
     }
+
     container.innerHTML = `
       <div class="banner" style="background-image: url('https://www.themoviedb.org/t/p/original${
           json.backdrop_path
@@ -62,7 +65,7 @@ function displayDetailedView(json) {
 }
 
 function displayCast(json) {
-    console.log(json);
+    // console.log(json);
     const castContainer = document.querySelector(".actors");
     for (let loopThroughCast = 0; loopThroughCast < 4; loopThroughCast++) {
         const cast = json.cast[loopThroughCast] || json.crew[loopThroughCast];

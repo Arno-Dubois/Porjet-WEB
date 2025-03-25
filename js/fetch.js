@@ -12,7 +12,7 @@ async function fetchAPI(path) {
     };
 
     const response = await fetch(url, options);
-    console.log(response);
+    // console.log(response);
     if (response.ok) {
         const json = response.json();
         return json;
