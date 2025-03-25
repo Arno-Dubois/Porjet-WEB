@@ -1,5 +1,5 @@
 function display(json, container) {
-    // console.log(json);
+    console.log(json);
     const options = {
         year: "numeric",
         month: "long",
@@ -24,6 +24,11 @@ function display(json, container) {
             }&id=${film.id}`;
         });
     }
+
+    const banner = document.querySelector(".search-container");
+    json.results[0].backdrop_path
+        ? (banner.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${json.results[0].backdrop_path})`)
+        : "";
 }
 
 export default display;

@@ -24,7 +24,7 @@ function displayFocus(json) {
     }
 
     container.innerHTML = `
-      <div class="banner" style="background-image: url('https://www.themoviedb.org/t/p/original${
+      <header class="banner" style="background-image: url('https://www.themoviedb.org/t/p/original${
           json.backdrop_path
       }')">
         <div class="content">
@@ -55,12 +55,12 @@ function displayFocus(json) {
             </div>
           </div>
         </div>
-    </div>
-    <div class="casting">
+    </header>
+    <article class="casting">
         <h2>Casting</h2>
         <div class="actors">
         </div>
-    </div>	
+    </article>	
     `;
 }
 
