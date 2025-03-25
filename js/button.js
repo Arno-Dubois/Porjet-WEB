@@ -58,3 +58,10 @@ ratingInput.addEventListener("change", () => {
         handleSearch();
     }
 });
+
+document.addEventListener("click", (e) => {
+    const resultsContainer = document.querySelector(".search-results-dropdown");
+    if (!e.target.closest(".search-container")) {
+        resultsContainer.style.display = "none";
+    }
+});

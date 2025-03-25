@@ -6,17 +6,13 @@ function handleSearch() {
     const searchQuery = searchInput.value.trim();
     if (searchQuery) {
         // console.log("Searching for:", searchQuery);
-        // Fetch search results and display them under the search bar
+
         searchMovies(searchQuery);
     }
 }
 
-const filterOptions = document.querySelectorAll(".filter-option");
-const yearInput = document.querySelector(".year-input");
-
-// Set up filter state with new defaults
 const filters = {
-    type: ["movie", "tv"], // Default to both Films and Séries
+    type: ["movie", "tv"],
     date: {
         mode: "before",
         year: 2026,
@@ -35,29 +31,23 @@ async function displaySearchResults(results) {
     resultsContainer.style.display = "block";
 
     if (results.results.length === 0) {
-        // Hide all result items
         resultItems.forEach((item) => {
             item.style.display = "none";
         });
-        // Show the no results message
+
         noResultsElement.style.display = "block";
         return;
     }
 
-    // Sort results using weighted rating that considers vote count
     results.results.sort((a, b) => {
-        // Get rating and vote count values (default to 0 if missing)
         const ratingA = a.vote_average || 0;
         const ratingB = b.vote_average || 0;
         const countA = a.vote_count || 0;
         const countB = b.vote_count || 0;
 
-        // Use Bayesian average formula (similar to IMDB's weighted rating)
-        // This balances between the movie's rating and the average rating based on vote count
-        const minVotesRequired = 10000; // Minimum votes to consider fully reliable
-        const globalAverageRating = 5.5; // Average across all movies
+        const minVotesRequired = 10000;
+        const globalAverageRating = 5.5;
 
-        // Calculate weighted ratings
         const weightedRatingA =
             (countA / (countA + minVotesRequired)) * ratingA +
             (minVotesRequired / (countA + minVotesRequired)) *
@@ -71,22 +61,18 @@ async function displaySearchResults(results) {
         return weightedRatingB - weightedRatingA;
     });
 
-    // Show the result items, hide no results message
     noResultsElement.style.display = "none";
 
     const maxResults = Math.min(5, results.results.length);
 
-    // Update content for available results
     for (let i = 0; i < maxResults; i++) {
         const movie = results.results[i];
         const resultItem = resultItems[i];
 
         resultItem.style.display = "block";
 
-        // Clear previous content
         resultItem.innerHTML = "";
 
-        // Create enhanced result item with image, title, date, type and rating
         const imgBaseUrl = "https://image.tmdb.org/t/p/w92";
         const posterPath = movie.poster_path || movie.profile_path;
         const mediaType = movie.media_type;
@@ -99,7 +85,6 @@ async function displaySearchResults(results) {
             ? movie.vote_average.toFixed(1)
             : "N/A";
 
-        // Fetch additional details (genres, seasons, episodes)
         let additionalDetails = await fetchAdditionalDetails(
             movie.id,
             mediaType
@@ -108,7 +93,6 @@ async function displaySearchResults(results) {
         let seasonEpisodeInfo = "";
 
         if (additionalDetails) {
-            // Handle genres
             if (
                 additionalDetails.genres &&
                 additionalDetails.genres.length > 0
@@ -119,7 +103,6 @@ async function displaySearchResults(results) {
                     .join(", ");
             }
 
-            // Handle season/episode info for TV shows
             if (mediaType === "tv") {
                 const seasonCount = additionalDetails.number_of_seasons || 0;
                 const episodeCount = additionalDetails.number_of_episodes || 0;
@@ -161,7 +144,6 @@ async function displaySearchResults(results) {
             </div>
         `;
 
-        // Add the click event listener
         resultItem.onclick = () => {
             window.location.href = `focus.html?id=${movie.id}&type=${mediaType}`;
 
@@ -170,13 +152,11 @@ async function displaySearchResults(results) {
         };
     }
 
-    // Hide any unused result items
     for (let i = maxResults; i < resultItems.length; i++) {
         resultItems[i].style.display = "none";
     }
 }
 
-// Function to fetch additional details for a movie or TV show
 async function fetchAdditionalDetails(id, mediaType) {
     try {
         const url = `https://api.themoviedb.org/3/${mediaType}/${id}?language=fr-FR`;
@@ -221,15 +201,12 @@ async function searchMovies(query) {
         const response = await fetch(url, options);
         if (response.ok) {
             const json = await response.json();
-            // console.log("Search results:", json);
 
-            // Apply filters before displaying results
             const filteredResults = {
                 ...json,
                 results: applyFilters(json.results, filters),
             };
 
-            // Display filtered search results
             displaySearchResults(filteredResults);
         } else {
             console.error("Search error:", response.status);
@@ -239,15 +216,12 @@ async function searchMovies(query) {
     }
 }
 
-// Function to apply filters to results
 function applyFilters(results, filters) {
     return results.filter((item) => {
-        // Apply media type filter (now handles array of selected types)
         if (!filters.type.includes(item.media_type)) {
             return false;
         }
 
-        // Apply date filter
         if (filters.date.mode !== "all") {
             const date = item.release_date || item.first_air_date || "";
             if (!date) return false;
@@ -262,7 +236,6 @@ function applyFilters(results, filters) {
             }
         }
 
-        // Apply rating filter
         if (filters.rating.mode !== "all") {
             const rating = item.vote_average || 0;
             const compareValue = filters.rating.value;

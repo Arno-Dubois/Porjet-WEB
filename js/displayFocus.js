@@ -1,4 +1,4 @@
-function displayDetailedView(json) {
+function displayFocus(json) {
     const container = document.querySelector(".focus-container");
     const options = {
         year: "numeric",
@@ -84,4 +84,4 @@ function displayCast(json) {
         `;
     }
 }
-export { displayDetailedView, displayCast };
+export { displayFocus as displayFocus, displayCast };
