@@ -48,35 +48,107 @@
         <!-- Content -->
 
         <div class="search-container saveMe">
-            <div>
+            <div class="search-input-container">
                 <input type="text" placeholder="Rechercher un film" />
                 <button type="submit"><i class="fas fa-search"></i></button>
-                <div class="search-results-dropdown" style="display: none">
-                    <div class="search-result-item">
-                        <!-- Result 1 content will go here -->
+            </div>
+
+            <div class="search-filters">
+                <div class="filter-group">
+                    <span class="filter-label">Type :</span>
+                    <div class="button-group">
+                        <span
+                            class="filter-option multi-select active"
+                            data-filter="type"
+                            data-value="movie"
+                            >Films</span
+                        >
+                        <span
+                            class="filter-option multi-select active"
+                            data-filter="type"
+                            data-value="tv"
+                            >Séries</span
+                        >
                     </div>
-                    <hr />
-                    <div class="search-result-item">
-                        <!-- Result 2 content will go here -->
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Date :</span>
+                    <div class="button-group">
+                        <span
+                            class="filter-option active"
+                            data-filter="date"
+                            data-value="before"
+                            >Avant</span
+                        >
+                        <input
+                            type="number"
+                            class="year-input"
+                            value="2026"
+                            min="1900"
+                            max="2030"
+                        />
+                        <span
+                            class="filter-option"
+                            data-filter="date"
+                            data-value="after"
+                            >Après</span
+                        >
                     </div>
-                    <hr />
-                    <div class="search-result-item">
-                        <!-- Result 3 content will go here -->
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Note :</span>
+                    <div class="button-group">
+                        <span
+                            class="filter-option active"
+                            data-filter="rating"
+                            data-value="minus"
+                            >Moins</span
+                        >
+                        <input
+                            type="number"
+                            class="rating-input"
+                            value="10.1"
+                            min="0"
+                            max="10"
+                            step="0.1"
+                        />
+                        <span
+                            class="filter-option"
+                            data-filter="rating"
+                            data-value="plus"
+                            >Plus</span
+                        >
                     </div>
-                    <hr />
-                    <div class="search-result-item">
-                        <!-- Result 4 content will go here -->
-                    </div>
-                    <hr />
-                    <div class="search-result-item">
-                        <!-- Result 5 content will go here -->
-                    </div>
-                    <div
-                        class="search-result-item search-no-results"
-                        style="display: none"
-                    >
-                        Aucun résultat trouvé
-                    </div>
+                </div>
+            </div>
+
+            <div class="search-results-dropdown" style="display: none">
+                <div class="search-result-item">
+                    <!-- Result 1 content will go here -->
+                </div>
+                <hr />
+                <div class="search-result-item">
+                    <!-- Result 2 content will go here -->
+                </div>
+                <hr />
+                <div class="search-result-item">
+                    <!-- Result 3 content will go here -->
+                </div>
+                <hr />
+                <div class="search-result-item">
+                    <!-- Result 4 content will go here -->
+                </div>
+                <hr />
+                <div class="search-result-item">
+                    <!-- Result 5 content will go here -->
+                </div>
+                <div
+                    class="search-result-item search-no-results"
+                    style="display: none"
+                >
+                    Aucun résultat trouvé
                 </div>
             </div>
         </div>

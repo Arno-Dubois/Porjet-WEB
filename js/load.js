@@ -32,6 +32,93 @@ searchInput.addEventListener("keypress", (e) => {
 
 searchInput.addEventListener("input", handleSearch);
 
+const filterOptions = document.querySelectorAll(".filter-option");
+const yearInput = document.querySelector(".year-input");
+const ratingInput = document.querySelector(".rating-input");
+
+// Set up filter state with new defaults
+const filters = {
+    type: ["movie", "tv"], // Default to both Films and Séries
+    date: {
+        mode: "before",
+        year: 2026
+    },
+    rating: {
+        mode: "moins",
+        value: 10.1
+    }
+};
+
+// Update the default value for rating input
+ratingInput.value = "10.1";
+
+// Handle filter option clicks
+filterOptions.forEach(option => {
+    option.addEventListener("click", () => {
+        const filterType = option.dataset.filter;
+        const filterValue = option.dataset.value;
+        
+        // Handle multi-select for type filters differently
+        if (option.classList.contains("multi-select")) {
+            option.classList.toggle("active");
+            
+            // Update type filters array based on active selections
+            if (filterType === "type") {
+                if (option.classList.contains("active")) {
+                    // Add to array if not already included
+                    if (!filters.type.includes(filterValue)) {
+                        filters.type.push(filterValue);
+                    }
+                } else {
+                    // Remove from array
+                    filters.type = filters.type.filter(t => t !== filterValue);
+                    
+                    // Don't allow empty selection
+                    if (filters.type.length === 0) {
+                        option.classList.add("active");
+                        filters.type.push(filterValue);
+                    }
+                }
+            }
+        } else {
+            // For non-multi-select filters, keep old behavior
+            document.querySelectorAll(`.filter-option[data-filter="${filterType}"]`).forEach(el => {
+                if (!el.classList.contains("multi-select")) {
+                    el.classList.remove("active");
+                }
+            });
+            option.classList.add("active");
+            
+            // Update filter state
+            if (filterType === "date") {
+                filters.date.mode = filterValue;
+            } else if (filterType === "rating") {
+                filters.rating.mode = filterValue;
+            }
+        }
+        
+        // If there's an active search, re-run it with the new filters
+        if (searchInput.value.trim()) {
+            handleSearch();
+        }
+    });
+});
+
+// Handle input changes
+yearInput.addEventListener("change", () => {
+    filters.date.year = parseInt(yearInput.value);
+    if (searchInput.value.trim()) {
+        handleSearch();
+    }
+});
+
+ratingInput.addEventListener("change", () => {
+    filters.rating.value = parseFloat(ratingInput.value);
+    if (searchInput.value.trim()) {
+        handleSearch();
+    }
+});
+
 async function displaySearchResults(results) {
     const resultsContainer = document.querySelector(".search-results-dropdown");
     const noResultsElement = document.querySelector(".search-no-results");
@@ -193,12 +280,58 @@ async function searchMovies(query) {
         if (response.ok) {
             const json = await response.json();
             console.log("Search results:", json);
-            // Display search results in dropdown
-            displaySearchResults(json);
+            
+            // Apply filters before displaying results
+            const filteredResults = {
+                ...json,
+                results: applyFilters(json.results, filters)
+            };
+            
+            // Display filtered search results
+            displaySearchResults(filteredResults);
         } else {
             console.error("Search error:", response.status);
         }
     } catch (error) {
         console.error("Search error:", error);
     }
+}
+
+// Function to apply filters to results
+function applyFilters(results, filters) {
+    return results.filter(item => {
+        // Apply media type filter (now handles array of selected types)
+        if (!filters.type.includes(item.media_type)) {
+            return false;
+        }
+        
+        // Apply date filter
+        if (filters.date.mode !== "all") {
+            const date = item.release_date || item.first_air_date || "";
+            if (!date) return false;
+            
+            const year = new Date(date).getFullYear();
+            const compareYear = filters.date.year;
+            
+            if (filters.date.mode === "before" && year > compareYear) {
+                return false;
+            } else if (filters.date.mode === "after" && year < compareYear) {
+                return false;
+            }
+        }
+        
+        // Apply rating filter
+        if (filters.rating.mode !== "all") {
+            const rating = item.vote_average || 0;
+            const compareValue = filters.rating.value;
+            
+            if (filters.rating.mode === "plus" && rating < compareValue) {
+                return false;
+            } else if (filters.rating.mode === "moins" && rating > compareValue) {
+                return false;
+            }
+        }
+        
+        return true;
+    });
 }
