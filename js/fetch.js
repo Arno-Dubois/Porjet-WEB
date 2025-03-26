@@ -29,5 +29,9 @@ async function fetchTV(sortBy) {
     const json = await fetchAPI(`tv/${sortBy}`);
     displayHome(json, "#populaires");
 }
+async function fetchMovie(sortBy) {
+    const json = await fetchAPI(`movie/${sortBy}`);
+    displayHome(json, "#movie");
+}
 
-export { fetchAPI, fetchTV, fetchTrending };
+export { fetchAPI, fetchTV, fetchTrending, fetchMovie };

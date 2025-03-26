@@ -1,8 +1,9 @@
-import { fetchTV, fetchTrending } from "./fetch.js";
+import { fetchTV, fetchTrending, fetchMovie } from "./fetch.js";
 import { handleSearch, filters } from "./search.js";
 
-fetchTrending("day");
 fetchTV("top_rated");
+fetchMovie("top_rated");
+fetchTrending("day");
 
 const filterOptions = document.querySelectorAll(".filter-option");
 const ratingInput = document.querySelector(".rating-input");

@@ -1,10 +1,12 @@
-import { fetchTV, fetchTrending } from "./fetch.js";
+import { fetchTV, fetchTrending, fetchMovie } from "./fetch.js";
 import { handleSearch, filters } from "./search.js";
 
 const trendingByDay = document.querySelector("#day");
 const trendingByWeek = document.querySelector("#week");
 const tvTopRated = document.querySelector("#top_rated");
 const tvPopular = document.querySelector("#popular");
+const movieTopRated = document.querySelector("#top_rated_movie");
+const moviePopular = document.querySelector("#popular_movie");
 
 trendingByDay.addEventListener("click", () => {
     trendingByWeek.classList.remove("active");
@@ -28,6 +30,18 @@ tvPopular.addEventListener("click", () => {
     tvTopRated.classList.remove("active");
     fetchTV("popular");
     tvPopular.classList.add("active");
+});
+
+movieTopRated.addEventListener("click", () => {
+    movieTopRated.classList.add("active");
+    fetchMovie("top_rated");
+    moviePopular.classList.remove("active");
+});
+
+moviePopular.addEventListener("click", () => {
+    movieTopRated.classList.remove("active");
+    fetchMovie("popular");
+    moviePopular.classList.add("active");
 });
 
 const searchInput = document.querySelector(".search-container div > input");

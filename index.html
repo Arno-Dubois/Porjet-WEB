@@ -19,7 +19,7 @@
         <nav class="desktop-nav">
             <a href="index.html"><i class="fas fa-film"></i></a>
             <ul>
-                <li><a href="/#title-tendances">Films</a></li>
+                <li><a href="/#title-movie">Film</a></li>
                 <li><a href="/#title-category">Séries</a></li>
                 <li><a href="/#title-tendances">Populaires</a></li>
             </ul>
@@ -153,7 +153,7 @@
             </div>
         </header>
 
-        <div class="wrapper">
+        <section class="wrapper">
             <article class="tendances-container container">
                 <!--  Ici les films tendances -->
                 <div class="title-filter" id="title-tendances">
@@ -188,9 +188,9 @@
                     </div>
                 </div>
             </article>
-        </div>
+        </section>
 
-        <div class="wrapper-pop">
+        <section class="wrapper-pop">
             <article class="populaires-container container">
                 <!-- Ici les films/séries populaires-->
                 <div class="title-filter saveMe" id="title-category">
@@ -226,7 +226,47 @@
                     </div>
                 </div>
             </article>
-        </div>
+        </section>
+
+        <section class="wrapper">
+            <article class="movie-container container">
+                <!-- Ici les films/séries populaires-->
+                <div class="title-filter saveMe" id="title-movie">
+                    <h2>Film</h2>
+
+                    <button class="active" id="top_rated_movie">
+                        Mieux notées
+                    </button>
+                    <button id="popular_movie">Populaires</button>
+                </div>
+                <div class="grid-tendances" id="movie">
+                    <div class="movie">
+                        <img src="img/popcorn.svg" alt="" />
+                        <div class="score"><p></p></div>
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                    <div class="movie">
+                        <img src="img/popcorn.svg" alt="" />
+                        <div class="score"><p></p></div>
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                    <div class="movie">
+                        <img src="img/popcorn.svg" alt="" />
+                        <div class="score"><p></p></div>
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                    <div class="movie">
+                        <img src="img/popcorn.svg" alt="" />
+                        <div class="score"><p></p></div>
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                </div>
+            </article>
+        </section>
 
         <!-- Footer -->
         <footer>
