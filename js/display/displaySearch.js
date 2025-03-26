@@ -11,7 +11,7 @@ import { fetchAPI } from "../fetch/fetch.js";
 function handleSearch() {
     const searchQuery = searchInput().value.trim();
     if (searchQuery) {
-        console.log("Searching for:", searchQuery);
+        //console.log("Searching for:", searchQuery);
 
         searchMovies(searchQuery);
     }

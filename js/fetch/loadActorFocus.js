@@ -20,11 +20,9 @@ if (actorId) {
         const credits = await fetchAPI(`person/${actorId}/combined_credits`);
         displayActorFilmography(credits);
     } catch (error) {
-        console.error("Error loading actor data:", error);
         window.location.href = "404.html";
     }
 } else {
-    console.error("No actor ID provided");
     window.location.href = "404.html";
 }
 

@@ -99,7 +99,7 @@ function displayCast(json) {
 function displayTrailer(videos) {
     const container = focusContainer();
 
-    console.log(videos);
+    //console.log(videos);
     let trailer = videos.results.find(
         (video) =>
             video.type === "Trailer" &&
