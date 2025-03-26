@@ -81,3 +81,46 @@ document.addEventListener("click", (e) => {
         searchFilters.style.display = "none";
     }
 });
+
+searchInput.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
+});
+
+searchButton.addEventListener("click", () => {
+    handleSearch();
+});
+
+// Close search results when clicking outside
+document.addEventListener("click", (e) => {
+    const searchContainer = document.querySelector(".search-container");
+    const searchResults = document.querySelector(".search-results-dropdown");
+    const searchFilters = document.querySelector(".search-filters");
+
+    if (searchResults && searchFilters) {
+        if (!searchContainer.contains(e.target)) {
+            searchResults.style.display = "none";
+            searchFilters.style.display = "none";
+        }
+    }
+});
+
+// Update filters when inputs change
+yearInput?.addEventListener("change", () => {
+    if (yearInput.value) {
+        filters.date.year = parseInt(yearInput.value);
+        if (searchInput.value.trim()) {
+            handleSearch();
+        }
+    }
+});
+
+ratingInput?.addEventListener("change", () => {
+    if (ratingInput.value) {
+        filters.rating.value = parseFloat(ratingInput.value);
+        if (searchInput.value.trim()) {
+            handleSearch();
+        }
+    }
+});

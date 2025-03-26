@@ -1,0 +1,37 @@
+.actor-focus-container {
+    .banner .content img {
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .top .title-date h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .top .title-date span {
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+
+    .synopsis h2 {
+        margin: 20px 0 15px 0;
+        font-size: 1.5em;
+    }
+
+    .synopsis p {
+        line-height: 1.6;
+        max-height: 250px;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+
+    .movie span {
+        display: block;
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+}

@@ -12,7 +12,7 @@ function handleSearch() {
 }
 
 const filters = {
-    type: ["movie", "tv"],
+    type: ["movie", "tv", "person"],
     date: {
         mode: "before",
         year: 2026,
@@ -68,50 +68,64 @@ async function displaySearchResults(results) {
     const maxResults = Math.min(5, results.results.length);
 
     for (let i = 0; i < maxResults; i++) {
-        const movie = results.results[i];
+        const result = results.results[i];
         const resultItem = resultItems[i];
 
         resultItem.innerHTML = "";
+        resultItem.setAttribute("data-type", result.media_type);
 
         const imgBaseUrl = "https://image.tmdb.org/t/p/w92";
-        const posterPath = movie.poster_path || movie.profile_path;
-        const mediaType = movie.media_type;
-        const title = movie.title || movie.name;
-        const date = movie.release_date || movie.first_air_date || "";
+        const posterPath = result.poster_path || result.profile_path;
+        const mediaType = result.media_type;
+        const title = result.title || result.name;
+        const date = result.release_date || result.first_air_date || "";
         const formattedDate = date
             ? new Date(date).toLocaleDateString("fr-FR")
-            : "Date inconnue";
-        const rating = movie.vote_average
-            ? movie.vote_average.toFixed(1)
+            : mediaType === "person" && result.birthday 
+              ? new Date(result.birthday).toLocaleDateString("fr-FR")
+              : "Date inconnue";
+        const rating = result.vote_average
+            ? result.vote_average.toFixed(1)
             : "N/A";
 
-        let additionalDetails = await fetchAdditionalDetails(
-            movie.id,
-            mediaType
-        );
+        let additionalDetails = null;
         let genreInfo = "Genre inconnu";
         let seasonEpisodeInfo = "";
+        let knownFor = "";
 
-        if (additionalDetails) {
-            if (
-                additionalDetails.genres &&
-                additionalDetails.genres.length > 0
-            ) {
-                genreInfo = additionalDetails.genres
-                    .slice(0, 2)
-                    .map((g) => g.name)
-                    .join(", ");
-            }
+        if (mediaType !== "person") {
+            additionalDetails = await fetchAdditionalDetails(
+                result.id,
+                mediaType
+            );
+            
+            if (additionalDetails) {
+                if (
+                    additionalDetails.genres &&
+                    additionalDetails.genres.length > 0
+                ) {
+                    genreInfo = additionalDetails.genres
+                        .slice(0, 2)
+                        .map((g) => g.name)
+                        .join(", ");
+                }
 
-            if (mediaType === "tv") {
-                const seasonCount = additionalDetails.number_of_seasons || 0;
-                const episodeCount = additionalDetails.number_of_episodes || 0;
-                seasonEpisodeInfo = `<span class="result-seasons">${seasonCount} saison${
-                    seasonCount > 1 ? "s" : ""
-                }, ${episodeCount} épisode${
-                    episodeCount > 1 ? "s" : ""
-                }</span>`;
+                if (mediaType === "tv") {
+                    const seasonCount = additionalDetails.number_of_seasons || 0;
+                    const episodeCount = additionalDetails.number_of_episodes || 0;
+                    seasonEpisodeInfo = `<span class="result-seasons">${seasonCount} saison${
+                        seasonCount > 1 ? "s" : ""
+                    }, ${episodeCount} épisode${
+                        episodeCount > 1 ? "s" : ""
+                    }</span>`;
+                }
             }
+        } else if (result.known_for && result.known_for.length > 0) {
+            // For actors, get what they're known for
+            knownFor = result.known_for
+                .slice(0, 2)
+                .map(item => item.title || item.name)
+                .join(", ");
         }
 
         resultItem.innerHTML = `
@@ -120,32 +134,45 @@ async function displaySearchResults(results) {
                     <img src="${
                         posterPath
                             ? imgBaseUrl + posterPath
-                            : "./img/popcorn.svg"
+                            : mediaType === "person" 
+                              ? "./img/user-round-x.svg" 
+                              : "./img/popcorn.svg"
                     }" alt="${title}">
                 </div>
                 <div class="result-details">
                     <div class="result-title">${title}</div>
                     <div class="result-info">
-                        <span class="result-date">${formattedDate}</span>
-                        <span class="result-type">${
+                        <span class="result-date">${
+                            mediaType === "person" ? "Acteur" : formattedDate
+                        }</span>
+                        <span class="result-type ${mediaType}">${
                             mediaType === "tv"
                                 ? "Série"
                                 : mediaType === "movie"
                                 ? "Film"
+                                : mediaType === "person"
+                                ? "Personne"
                                 : mediaType
                         }</span>
-                        <span class="result-rating">⭐ ${rating}</span>
+                        ${mediaType !== "person" ? `<span class="result-rating">⭐ ${rating}</span>` : ''}
                     </div>
                     <div class="result-meta">
-                        <span class="result-genre">${genreInfo}</span>
-                        ${seasonEpisodeInfo}
+                        ${
+                            mediaType === "person"
+                            ? knownFor ? `<span class="result-genre">Connu pour: ${knownFor}</span>` : ''
+                            : `<span class="result-genre">${genreInfo}</span>${seasonEpisodeInfo}`
+                        }
                     </div>
                 </div>
             </div>
         `;
 
         resultItem.onclick = () => {
-            window.location.href = `focus.html?id=${movie.id}&type=${mediaType}`;
+            if (mediaType === "person") {
+                window.location.href = `actor-focus.html?id=${result.id}`;
+            } else {
+                window.location.href = `focus.html?id=${result.id}&type=${mediaType}`;
+            }
 
             searchInput.value = "";
             resultsContainer.style.display = "none";
@@ -222,6 +249,11 @@ function applyFilters(results, filters) {
     return results.filter((item) => {
         if (!filters.type.includes(item.media_type)) {
             return false;
+        }
+
+        // Skip date and rating filters for person type
+        if (item.media_type === "person") {
+            return true;
         }
 
         const date = item.release_date || item.first_air_date || "";

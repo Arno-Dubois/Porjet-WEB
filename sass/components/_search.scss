@@ -193,6 +193,11 @@
         background: #f0f0f0;
         border-radius: 4px;
         font-size: 0.85em;
+
+        &.person {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
     }
 
     .result-rating {

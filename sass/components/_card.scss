@@ -1,4 +1,5 @@
-.movie ,
+.container .movie,
+.casting .movie,
 .actor {
     margin-bottom: 20px;
     cursor: pointer;
@@ -77,5 +78,4 @@
         font-weight: 700;
         color: #e7e7e7;
     }
-
-} 
+}

@@ -117,23 +117,23 @@
             }
         }
     }
-    
+
     .movie-trailer {
         width: 83%;
         max-width: 1380px;
         margin-top: 40px;
-        
+
         h2 {
             margin-bottom: 40px;
             font-size: 36px;
             font-weight: 400;
         }
-        
+
         .trailer-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            
+
             iframe {
                 position: absolute;
                 top: 0;
@@ -145,4 +145,4 @@
             }
         }
     }
-} 
+}
