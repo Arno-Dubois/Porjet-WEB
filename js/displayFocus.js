@@ -84,4 +84,56 @@ function displayCast(json) {
         `;
     }
 }
-export { displayFocus as displayFocus, displayCast };
+
+function displayTrailer(videos) {
+    const focusContainer = document.querySelector(".focus-container");
+    // Find a trailer - prioritize official trailers
+    console.log(videos);
+    let trailer = videos.results.find(
+        (video) =>
+            video.type === "Trailer" &&
+            video.site === "YouTube" &&
+            video.official === true
+    );
+
+    // If no official trailer, try any trailer
+    if (!trailer) {
+        trailer = videos.results.find(
+            (video) => video.type === "Trailer" && video.site === "YouTube"
+        );
+    }
+
+    // If still no trailer, use any video
+    if (!trailer && videos.results.length > 0) {
+        trailer = videos.results[0];
+    }
+
+    if (trailer) {
+        // Create trailer section
+        const trailerSection = document.createElement("section");
+        trailerSection.className = "movie-trailer";
+        trailerSection.innerHTML = `
+          <h2>Bande Annonce</h2>
+          <div class="trailer-container">
+              <iframe 
+                  width="800" 
+                  height="450" 
+                  src="https://www.youtube.com/embed/${trailer.key}" 
+                  title="${trailer.name}" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+              </iframe>
+          </div>
+      `;
+
+        // Insert before the casting section
+        const castingSection = document.querySelector(".casting");
+        if (castingSection) {
+            focusContainer.insertBefore(trailerSection, castingSection);
+        } else {
+            focusContainer.appendChild(trailerSection);
+        }
+    }
+}
+export { displayFocus as displayFocus, displayCast, displayTrailer };
