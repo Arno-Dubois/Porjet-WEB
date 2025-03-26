@@ -1,0 +1,81 @@
+.movie ,
+.actor {
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: 220px;
+    position: relative;
+
+    img {
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        width: 220px;
+        height: 330px;
+    }
+    .score {
+        width: 235px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        p {
+            margin-top: -40px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50px;
+            background-color: #032541;
+            border: solid 3px white;
+            color: white;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 8px;
+            box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 8px;
+        }
+    }
+
+    h5 {
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        color: #032541;
+        font-size: 20px;
+    }
+
+    &:hover {
+        img {
+            -webkit-box-shadow: rgba(0, 0, 0, 0.55) 8px 8px 5px;
+            box-shadow: rgba(0, 0, 0, 0.55) 8px 8px 5px;
+        }
+
+        h5 {
+            text-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2px;
+        }
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+        color: black;
+    }
+
+    .like {
+        background-color: #032541;
+        border-radius: 50px;
+        border: 3px #e7e7e7 solid;
+        position: absolute;
+        bottom: 10px;
+        right: -36px;
+        padding: 1.3rem 0.9rem;
+        font-size: 18px;
+        font-weight: 700;
+        color: #e7e7e7;
+    }
+
+} 
