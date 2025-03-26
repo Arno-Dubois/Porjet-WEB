@@ -13,7 +13,7 @@ ratingInput.value = "10.1";
 
 filterOptions.forEach((option) => {
     option.addEventListener("click", () => {
-        console.log(option.dataset);
+        //console.log(option.dataset);
         const filterType = option.dataset.filter;
         const filterValue = option.dataset.value;
 
@@ -52,7 +52,7 @@ filterOptions.forEach((option) => {
                 filters.rating.mode = filterValue;
             }
         }
-        console.log(filters);
+        //console.log(filters);
 
         if (searchInput.value.trim()) {
             handleSearch();
