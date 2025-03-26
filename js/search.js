@@ -27,8 +27,10 @@ async function displaySearchResults(results) {
     const resultsContainer = document.querySelector(".search-results-dropdown");
     const noResultsElement = document.querySelector(".search-no-results");
     const resultItems = document.querySelectorAll(".search-result-item");
+    const searchFilters = document.querySelector(".search-filters");
 
     resultsContainer.style.display = "block";
+    searchFilters.style.display = "flex";
 
     if (results.results.length === 0) {
         resultItems.forEach((item) => {
