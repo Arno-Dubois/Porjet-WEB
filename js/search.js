@@ -1,9 +1,14 @@
 import token from "./settings.js";
-
-const searchInput = document.querySelector(".search-container div > input");
+import { 
+    searchInput, 
+    searchResultsDropdown, 
+    searchNoResults, 
+    searchResultItems, 
+    searchFilters 
+} from "./querySelector.js";
 
 function handleSearch() {
-    const searchQuery = searchInput.value.trim();
+    const searchQuery = searchInput().value.trim();
     if (searchQuery) {
         // console.log("Searching for:", searchQuery);
 
@@ -24,13 +29,13 @@ const filters = {
 };
 
 async function displaySearchResults(results) {
-    const resultsContainer = document.querySelector(".search-results-dropdown");
-    const noResultsElement = document.querySelector(".search-no-results");
-    const resultItems = document.querySelectorAll(".search-result-item");
-    const searchFilters = document.querySelector(".search-filters");
+    const resultsContainer = searchResultsDropdown();
+    const noResultsElement = searchNoResults();
+    const resultItems = searchResultItems();
+    const filtersElement = searchFilters();
 
     resultsContainer.style.display = "block";
-    searchFilters.style.display = "flex";
+    filtersElement.style.display = "flex";
 
     if (results.results.length === 0) {
         resultItems.forEach((item) => {
@@ -81,9 +86,9 @@ async function displaySearchResults(results) {
         const date = result.release_date || result.first_air_date || "";
         const formattedDate = date
             ? new Date(date).toLocaleDateString("fr-FR")
-            : mediaType === "person" && result.birthday 
-              ? new Date(result.birthday).toLocaleDateString("fr-FR")
-              : "Date inconnue";
+            : mediaType === "person" && result.birthday
+            ? new Date(result.birthday).toLocaleDateString("fr-FR")
+            : "Date inconnue";
         const rating = result.vote_average
             ? result.vote_average.toFixed(1)
             : "N/A";
@@ -98,7 +103,7 @@ async function displaySearchResults(results) {
                 result.id,
                 mediaType
             );
-            
+
             if (additionalDetails) {
                 if (
                     additionalDetails.genres &&
@@ -111,8 +116,10 @@ async function displaySearchResults(results) {
                 }
 
                 if (mediaType === "tv") {
-                    const seasonCount = additionalDetails.number_of_seasons || 0;
-                    const episodeCount = additionalDetails.number_of_episodes || 0;
+                    const seasonCount =
+                        additionalDetails.number_of_seasons || 0;
+                    const episodeCount =
+                        additionalDetails.number_of_episodes || 0;
                     seasonEpisodeInfo = `<span class="result-seasons">${seasonCount} saison${
                         seasonCount > 1 ? "s" : ""
                     }, ${episodeCount} épisode${
@@ -121,10 +128,9 @@ async function displaySearchResults(results) {
                 }
             }
         } else if (result.known_for && result.known_for.length > 0) {
-            // For actors, get what they're known for
             knownFor = result.known_for
                 .slice(0, 2)
-                .map(item => item.title || item.name)
+                .map((item) => item.title || item.name)
                 .join(", ");
         }
 
@@ -134,9 +140,9 @@ async function displaySearchResults(results) {
                     <img src="${
                         posterPath
                             ? imgBaseUrl + posterPath
-                            : mediaType === "person" 
-                              ? "./img/user-round-x.svg" 
-                              : "./img/popcorn.svg"
+                            : mediaType === "person"
+                            ? "./img/user-round-x.svg"
+                            : "./img/popcorn.svg"
                     }" alt="${title}">
                 </div>
                 <div class="result-details">
@@ -146,21 +152,27 @@ async function displaySearchResults(results) {
                             mediaType === "person" ? "Acteur" : formattedDate
                         }</span>
                         <span class="result-type ${mediaType}">${
-                            mediaType === "tv"
-                                ? "Série"
-                                : mediaType === "movie"
-                                ? "Film"
-                                : mediaType === "person"
-                                ? "Personne"
-                                : mediaType
-                        }</span>
-                        ${mediaType !== "person" ? `<span class="result-rating">⭐ ${rating}</span>` : ''}
+            mediaType === "tv"
+                ? "Série"
+                : mediaType === "movie"
+                ? "Film"
+                : mediaType === "person"
+                ? "Personne"
+                : mediaType
+        }</span>
+                        ${
+                            mediaType !== "person"
+                                ? `<span class="result-rating">⭐ ${rating}</span>`
+                                : ""
+                        }
                     </div>
                     <div class="result-meta">
                         ${
                             mediaType === "person"
-                            ? knownFor ? `<span class="result-genre">Connu pour: ${knownFor}</span>` : ''
-                            : `<span class="result-genre">${genreInfo}</span>${seasonEpisodeInfo}`
+                                ? knownFor
+                                    ? `<span class="result-genre">Connu pour: ${knownFor}</span>`
+                                    : ""
+                                : `<span class="result-genre">${genreInfo}</span>${seasonEpisodeInfo}`
                         }
                     </div>
                 </div>
@@ -174,7 +186,7 @@ async function displaySearchResults(results) {
                 window.location.href = `focus.html?id=${result.id}&type=${mediaType}`;
             }
 
-            searchInput.value = "";
+            searchInput().value = "";
             resultsContainer.style.display = "none";
         };
 
@@ -251,7 +263,6 @@ function applyFilters(results, filters) {
             return false;
         }
 
-        // Skip date and rating filters for person type
         if (item.media_type === "person") {
             return true;
         }

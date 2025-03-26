@@ -1,5 +1,7 @@
+import { focusContainer, castContainer, castingSection } from "./querySelector.js";
+
 function displayFocus(json) {
-    const container = document.querySelector(".focus-container");
+    const container = focusContainer();
     const options = {
         year: "numeric",
         month: "long",
@@ -66,15 +68,16 @@ function displayFocus(json) {
 
 function displayCast(json) {
     // console.log(json);
-    const castContainer = document.querySelector(".actors");
+    const actorsContainer = castContainer();
     for (let loopThroughCast = 0; loopThroughCast < 4; loopThroughCast++) {
         const cast = json.cast[loopThroughCast] || json.crew[loopThroughCast];
-        castContainer.innerHTML += `
+        actorsContainer.innerHTML += `
         <div class="actor">
             <a href="actor-focus.html?id=${cast.id}">
                 <img src="${
                     cast.profile_path != null
-                        ? "https://www.themoviedb.org/t/p/w500" + cast.profile_path
+                        ? "https://www.themoviedb.org/t/p/w500" +
+                          cast.profile_path
                         : "img/user-round-x.svg"
                 }" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
                 <h4>${cast.name}</h4>
@@ -88,8 +91,8 @@ function displayCast(json) {
 }
 
 function displayTrailer(videos) {
-    const focusContainer = document.querySelector(".focus-container");
-    // Find a trailer - prioritize official trailers
+    const container = focusContainer();
+
     console.log(videos);
     let trailer = videos.results.find(
         (video) =>
@@ -98,20 +101,17 @@ function displayTrailer(videos) {
             video.official === true
     );
 
-    // If no official trailer, try any trailer
     if (!trailer) {
         trailer = videos.results.find(
             (video) => video.type === "Trailer" && video.site === "YouTube"
         );
     }
 
-    // If still no trailer, use any video
     if (!trailer && videos.results.length > 0) {
         trailer = videos.results[0];
     }
 
     if (trailer) {
-        // Create trailer section
         const trailerSection = document.createElement("section");
         trailerSection.className = "movie-trailer";
         trailerSection.innerHTML = `
@@ -129,12 +129,11 @@ function displayTrailer(videos) {
           </div>
       `;
 
-        // Insert before the casting section
-        const castingSection = document.querySelector(".casting");
-        if (castingSection) {
-            focusContainer.insertBefore(trailerSection, castingSection);
+        const castingSectionElement = castingSection();
+        if (castingSectionElement) {
+            container.insertBefore(trailerSection, castingSectionElement);
         } else {
-            focusContainer.appendChild(trailerSection);
+            container.appendChild(trailerSection);
         }
     }
 }

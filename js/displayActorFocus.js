@@ -1,6 +1,8 @@
+import { focusContainer, filmographyContainer } from "./querySelector.js";
+
 function displayActorFocus(actor) {
-    const container = document.querySelector(".focus-container");
-    // Format birthday
+    const container = focusContainer();
+
     const options = {
         year: "numeric",
         month: "long",
@@ -65,20 +67,16 @@ function calculateAge(dateOfBirth) {
 }
 
 function displayActorFilmography(credits) {
-    const filmographyContainer = document.querySelector(
-        ".focus-container .actors"
-    );
+    const moviesContainer = filmographyContainer();
 
-    // Sort movies by popularity
     const sortedMovies = credits.cast.sort(
         (a, b) => b.popularity - a.popularity
     );
 
-    // Display top movies (up to 8)
     const moviesToShow = sortedMovies.slice(0, 8);
 
     moviesToShow.forEach((movie) => {
-        filmographyContainer.innerHTML += `
+        moviesContainer.innerHTML += `
         <div class="movie">
             <a href="focus.html?type=${movie.media_type}&id=${movie.id}">
                 <img src="${

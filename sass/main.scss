@@ -1,22 +1,17 @@
-// Abstracts
 @import "abstracts/variables";
 @import "abstracts/mixins";
 
-// Base
 @import "base/reset";
 
-// Layout
 @import "layout/container";
 @import "layout/navigation";
 @import "layout/footer";
 
-// Components
 @import "components/search";
 @import "components/card";
 @import "components/title-filter";
 @import "components/navigation";
 
-// Pages
 @import "pages/home";
 @import "pages/movie-focus";
 @import "pages/actor-focus";

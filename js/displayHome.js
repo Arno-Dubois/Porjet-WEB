@@ -1,3 +1,5 @@
+import { gridTendance, banner } from "./querySelector.js";
+
 function display(json, container) {
     //console.log(json);
     const options = {
@@ -5,10 +7,10 @@ function display(json, container) {
         month: "long",
         day: "numeric",
     };
-    const gridTendance = document.querySelector(container);
+    const gridElement = gridTendance(container);
     for (let loopThroughFilm = 0; loopThroughFilm < 4; loopThroughFilm++) {
         const film = json.results[loopThroughFilm];
-        gridTendance.children[loopThroughFilm].innerHTML = `
+        gridElement.children[loopThroughFilm].innerHTML = `
         <img src="https://www.themoviedb.org/t/p/w500${
             film.poster_path
         }" alt="" srcset='img/popcorn.svg' onload="this.srcset=''"/>
@@ -18,16 +20,16 @@ function display(json, container) {
             film.first_air_date || film.release_date
         ).toLocaleDateString("fr-FR", options)}</p>
         `;
-        gridTendance.children[loopThroughFilm].addEventListener("click", () => {
+        gridElement.children[loopThroughFilm].addEventListener("click", () => {
             window.location.href = `/focus.html?type=${
                 film.name ? "tv" : "movie"
             }&id=${film.id}`;
         });
     }
 
-    const banner = document.querySelector(".search-container");
+    const bannerElement = banner();
     json.results[0].backdrop_path
-        ? (banner.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${json.results[0].backdrop_path})`)
+        ? (bannerElement.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${json.results[0].backdrop_path})`)
         : "";
 }
 
