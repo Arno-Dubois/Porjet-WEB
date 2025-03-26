@@ -1,5 +1,5 @@
 import { fetchTV, fetchTrending } from "./fetch.js";
-import { handleSearch } from "./search.js";
+import { handleSearch, filters } from "./search.js";
 
 fetchTrending("day");
 fetchTV("top_rated");
@@ -7,18 +7,6 @@ fetchTV("top_rated");
 const filterOptions = document.querySelectorAll(".filter-option");
 const ratingInput = document.querySelector(".rating-input");
 const searchInput = document.querySelector(".search-container div > input");
-
-const filters = {
-    type: ["movie", "tv"],
-    date: {
-        mode: "before",
-        year: 2026,
-    },
-    rating: {
-        mode: "moins",
-        value: 10.1,
-    },
-};
 
 ratingInput.value = "10.1";
 

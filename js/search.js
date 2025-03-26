@@ -69,8 +69,6 @@ async function displaySearchResults(results) {
         const movie = results.results[i];
         const resultItem = resultItems[i];
 
-        resultItem.style.display = "block";
-
         resultItem.innerHTML = "";
 
         const imgBaseUrl = "https://image.tmdb.org/t/p/w92";
@@ -150,6 +148,8 @@ async function displaySearchResults(results) {
             searchInput.value = "";
             resultsContainer.style.display = "none";
         };
+
+        resultItem.style.display = "block";
     }
 
     for (let i = maxResults; i < resultItems.length; i++) {
@@ -222,36 +222,29 @@ function applyFilters(results, filters) {
             return false;
         }
 
-        if (filters.date.mode !== "all") {
-            const date = item.release_date || item.first_air_date || "";
-            if (!date) return false;
+        const date = item.release_date || item.first_air_date || "";
+        if (!date) return false;
 
-            const year = new Date(date).getFullYear();
-            const compareYear = filters.date.year;
+        const year = new Date(date).getFullYear();
+        const compareYear = filters.date.year;
 
-            if (filters.date.mode === "before" && year > compareYear) {
-                return false;
-            } else if (filters.date.mode === "after" && year < compareYear) {
-                return false;
-            }
+        if (filters.date.mode === "before" && year > compareYear) {
+            return false;
+        } else if (filters.date.mode === "after" && year < compareYear) {
+            return false;
         }
 
-        if (filters.rating.mode !== "all") {
-            const rating = item.vote_average || 0;
-            const compareValue = filters.rating.value;
+        const rating = item.vote_average || 0;
+        const compareValue = filters.rating.value;
 
-            if (filters.rating.mode === "plus" && rating < compareValue) {
-                return false;
-            } else if (
-                filters.rating.mode === "moins" &&
-                rating > compareValue
-            ) {
-                return false;
-            }
+        if (filters.rating.mode === "plus" && rating < compareValue) {
+            return false;
+        } else if (filters.rating.mode === "minus" && rating > compareValue) {
+            return false;
         }
 
         return true;
     });
 }
 
-export { handleSearch };
+export { handleSearch, filters };

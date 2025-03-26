@@ -1,5 +1,5 @@
 import { fetchTV, fetchTrending } from "./fetch.js";
-import { handleSearch } from "./search.js";
+import { handleSearch, filters } from "./search.js";
 
 const trendingByDay = document.querySelector("#day");
 const trendingByWeek = document.querySelector("#week");
