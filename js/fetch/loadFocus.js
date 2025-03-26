@@ -1,6 +1,9 @@
 import { fetchAPI } from "./fetch.js";
-import { displayFocus, displayCast, displayTrailer } from "./displayFocus.js";
-import { focusContainer } from "./querySelector.js";
+import {
+    displayFocus,
+    displayCast,
+    displayTrailer,
+} from "../display/displayFocus.js";
 
 const getParameter = (key) => {
     const address = window.location.search;

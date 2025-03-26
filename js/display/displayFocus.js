@@ -1,4 +1,8 @@
-import { focusContainer, castContainer, castingSection } from "./querySelector.js";
+import {
+    focusContainer,
+    castContainer,
+    castingSection,
+} from "../general/querySelector.js";
 
 function displayFocus(json) {
     const container = focusContainer();
@@ -70,7 +74,9 @@ function displayCast(json) {
     // console.log(json);
     const actorsContainer = castContainer();
     for (let loopThroughCast = 0; loopThroughCast < 4; loopThroughCast++) {
-        const cast = json.cast[loopThroughCast] || json.crew[loopThroughCast];
+        const cast =
+            json.cast[loopThroughCast] || json.crew[loopThroughCast] || "";
+        if (cast === "") break;
         actorsContainer.innerHTML += `
         <div class="actor">
             <a href="actor-focus.html?id=${cast.id}">

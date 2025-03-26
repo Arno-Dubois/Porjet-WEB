@@ -1,5 +1,5 @@
-import displayHome from "./displayHome.js";
-import token from "./settings.js";
+import displayHome from "../display/displayHome.js";
+import token from "../general/settings.js";
 
 async function fetchAPI(path) {
     const url = `https://api.themoviedb.org/3/${path}?language=fr-FR`;

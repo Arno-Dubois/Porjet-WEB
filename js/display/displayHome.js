@@ -1,4 +1,4 @@
-import { gridTendance, banner } from "./querySelector.js";
+import { gridTendance, banner } from "../general/querySelector.js";
 
 function display(json, container) {
     //console.log(json);

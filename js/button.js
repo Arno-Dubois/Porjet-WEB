@@ -1,5 +1,5 @@
-import { fetchTV, fetchTrending, fetchMovie } from "./fetch.js";
-import { handleSearch, filters } from "./search.js";
+import { fetchTV, fetchTrending, fetchMovie } from "./fetch/fetch.js";
+import { handleSearch, filters } from "./display/displaySearch.js";
 import {
     trendingByDay,
     trendingByWeek,
@@ -13,8 +13,8 @@ import {
     ratingInput,
     searchResultsDropdown,
     searchFilters,
-    searchContainer
-} from "./querySelector.js";
+    searchContainer,
+} from "./general/querySelector.js";
 
 const trendingDayButton = trendingByDay();
 const trendingWeekButton = trendingByWeek();

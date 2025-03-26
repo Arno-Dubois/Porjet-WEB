@@ -1,4 +1,7 @@
-import { focusContainer, filmographyContainer } from "./querySelector.js";
+import {
+    focusContainer,
+    filmographyContainer,
+} from "../general/querySelector.js";
 
 function displayActorFocus(actor) {
     const container = focusContainer();

@@ -1,16 +1,17 @@
-import token from "./settings.js";
-import { 
-    searchInput, 
-    searchResultsDropdown, 
-    searchNoResults, 
-    searchResultItems, 
-    searchFilters 
-} from "./querySelector.js";
+import {
+    searchInput,
+    searchResultsDropdown,
+    searchNoResults,
+    searchResultItems,
+    searchFilters,
+} from "../general/querySelector.js";
+import { searchMovies } from "../fetch/fetchSearch.js";
+import { fetchAPI } from "../fetch/fetch.js";
 
 function handleSearch() {
     const searchQuery = searchInput().value.trim();
     if (searchQuery) {
-        // console.log("Searching for:", searchQuery);
+        console.log("Searching for:", searchQuery);
 
         searchMovies(searchQuery);
     }
@@ -99,10 +100,7 @@ async function displaySearchResults(results) {
         let knownFor = "";
 
         if (mediaType !== "person") {
-            additionalDetails = await fetchAdditionalDetails(
-                result.id,
-                mediaType
-            );
+            additionalDetails = await fetchAPI(mediaType + "/" + result.id);
 
             if (additionalDetails) {
                 if (
@@ -198,65 +196,6 @@ async function displaySearchResults(results) {
     }
 }
 
-async function fetchAdditionalDetails(id, mediaType) {
-    try {
-        const url = `https://api.themoviedb.org/3/${mediaType}/${id}?language=fr-FR`;
-        const options = {
-            method: "GET",
-            headers: {
-                accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        const response = await fetch(url, options);
-        if (response.ok) {
-            return await response.json();
-        } else {
-            console.error(
-                `Error fetching ${mediaType} details:`,
-                response.status
-            );
-            return null;
-        }
-    } catch (error) {
-        console.error("Search error:", error);
-    }
-}
-
-async function searchMovies(query) {
-    try {
-        const searchPath = `search/multi`;
-        const url = `https://api.themoviedb.org/3/${searchPath}?language=fr-FR&query=${encodeURIComponent(
-            query
-        )}`;
-
-        const options = {
-            method: "GET",
-            headers: {
-                accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        const response = await fetch(url, options);
-        if (response.ok) {
-            const json = await response.json();
-
-            const filteredResults = {
-                ...json,
-                results: applyFilters(json.results, filters),
-            };
-
-            displaySearchResults(filteredResults);
-        } else {
-            console.error("Search error:", response.status);
-        }
-    } catch (error) {
-        console.error("Search error:", error);
-    }
-}
-
 function applyFilters(results, filters) {
     return results.filter((item) => {
         if (!filters.type.includes(item.media_type)) {
@@ -292,4 +231,4 @@ function applyFilters(results, filters) {
     });
 }
 
-export { handleSearch, filters };
+export { handleSearch, filters, applyFilters, displaySearchResults };

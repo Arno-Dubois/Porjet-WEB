@@ -2,8 +2,8 @@ import { fetchAPI } from "./fetch.js";
 import {
     displayActorFocus,
     displayActorFilmography,
-} from "./displayActorFocus.js";
-import { mobileBarr, mobileNav } from "./querySelector.js";
+} from "../display/displayActorFocus.js";
+import { mobileBarr, mobileNav } from "../general/querySelector.js";
 
 const getParameter = (key) => {
     const address = window.location.search;
